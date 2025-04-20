@@ -7,16 +7,15 @@ def predict_anomaly(model, scaler, reading):
     return int(prediction[0] == -1)  # Return 1 if anomaly
 
 def classifier(model, scaler, reading):
-    reading_scaled=scaler.transform([reading])
+    reading_scaled = scaler.transform([reading])
     prediction = model.predict(reading_scaled)
-    if (prediction[0]==0):
-        return ("acidic environment")
-    if (prediction[0]==1):
-        return ("temperature drop")
-    if (prediction[0]==2):
-        return ("gas leak")
-    if (prediction[0]==3):
-        return ("overfeeding")
-    if (prediction[0]==4):
-        return ("underfeeding")
+    labels = {
+        0: "acidic environment",
+        1: "temperature drop",
+        2: "gas leak",
+        3: "overfeeding",
+        4: "underfeeding"
+    }
+    return labels.get(prediction[0], "unknown")
+
 

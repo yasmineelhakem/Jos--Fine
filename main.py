@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from model_utils import train_and_save_model
+from classifier_training import model_training
 
 n_samples = 1000
 timestamp = pd.date_range(start='2025-04-19', periods=n_samples, freq='10min')
@@ -28,3 +29,4 @@ with open('sensors_data.csv', 'w') as f:
 
 #train model
 train_and_save_model('sensors_data.csv')
+classifier=model_training('classifier.csv')

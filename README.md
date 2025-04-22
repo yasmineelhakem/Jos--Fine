@@ -45,5 +45,5 @@ This synthetic data simulates a wide range of operational scenarios and potentia
 ## 🚀 How to Run the Project
 Clone the repository:
 ```bash
-git clone https://github.com/Bio-phine/anaerobic-digestion-ai.git
-cd anaerobic-digestion-ai
+git clone https://github.com/yasmineelhakem/JoseFine.git
+cd interface

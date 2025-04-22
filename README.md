@@ -46,4 +46,4 @@ This synthetic data simulates a wide range of operational scenarios and potentia
 Clone the repository:
 ```bash
 git clone https://github.com/yasmineelhakem/JoseFine.git
-cd interface
+cd JoseFine

@@ -3,27 +3,27 @@ from datetime import datetime
 import streamlit as st
 import plotly.express as px
 from prediction import detect_anomalies
-from random_sensors_data import random_sensor_reading
+from generate_data import generate_without_anomalies, add_anomalies ,random_sensor_reading
 from predictor import predict_anomaly, classifier
-import joblib
+from model_utils import load
 import time
 
-# Load data and models
-data = detect_anomalies()
-model = joblib.load('isolation_forest_model.pkl')
-classifier_model = joblib.load('classifier.pkl')
-scaler = joblib.load('scaler.pkl')
 
 st.title("Biogas Sensor Anomaly Detection Dashboard")
 
-# KPIs
+data=generate_without_anomalies()
+data=add_anomalies(data)
+data.drop(columns='is_anomaly',inplace=True)
+preds=detect_anomalies(data)
+data['Anomaly'] = preds
+data['Anomaly'] = data['Anomaly'].map({1: 0, -1: 1})
+
 col1, col2, col3 = st.columns(3)
 col1.metric("Total Records", len(data))
 col2.metric("Anomalies", data['Anomaly'].sum())
 col3.metric("Anomaly Rate (%)", round(100 * data['Anomaly'].mean(), 2))
 
-# Line plot
-st.subheader("Sensor Data Over Time")
+st.subheader("Sensor Data ")
 sensor_choice = st.selectbox("Choose a variable to visualize:", ['pH', 'Temperature', 'GasFlowRate', 'CH4_Percent'])
 
 fig = px.line(
@@ -35,7 +35,7 @@ fig = px.line(
 st.plotly_chart(fig, use_container_width=True)
 
 # Table of anomalies
-st.subheader("📋 Anomaly Details")
+st.subheader("Anomaly Details")
 st.dataframe(data[data['Anomaly'] == 1])
 
 # Download
@@ -48,7 +48,12 @@ st.download_button(
     key='download-csv'
 )
 
+
 # Real-Time Section
+
+# Load data and models
+model, scaler, classifier = load()
+
 st.title("🔍 Real-Time Anomaly Detection")
 placeholder = st.empty()
 

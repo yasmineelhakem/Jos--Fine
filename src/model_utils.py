@@ -7,6 +7,7 @@ def train_and_save_model(filepath='sensor_data.csv'):
     data = pd.read_csv(filepath)
     X = data[['pH', 'Temperature', 'GasFlowRate', 'CH4_Percent', 'FeedingRate']]
 
+    # Data Normalization 
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X)
 
@@ -18,11 +19,13 @@ def train_and_save_model(filepath='sensor_data.csv'):
     )
     model.fit(X_scaled)
 
-    joblib.dump(model, 'isolation_forest_model.pkl')
-    joblib.dump(scaler, 'scaler.pkl')
-    print("✅ Model and scaler saved.")
+    # Save the trained Isolation Forest model and the scaler for later use
+    joblib.dump(model, './models/isolation_forest_model.pkl')
+    joblib.dump(scaler, './models/scaler.pkl')
+    print(" Model and scaler saved.")
 
-def load_model_and_scaler():
-    model = joblib.load('isolation_forest_model.pkl')
-    scaler = joblib.load('scaler.pkl')
-    return model, scaler
+def load():
+    model = joblib.load('./models/isolation_forest_model.pkl')
+    scaler = joblib.load('./models/scaler.pkl')
+    classifier= joblib.load('./models/classifier.pkl')
+    return model, scaler, classifier

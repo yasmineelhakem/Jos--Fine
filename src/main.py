@@ -35,4 +35,4 @@ print("preds")
 print(data[data['Anomaly']==1])
 
 
-#classifier=model_training('classifier.csv')
+classifier=model_training('classifier.csv')

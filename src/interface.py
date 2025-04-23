@@ -52,7 +52,7 @@ st.download_button(
 # Real-Time Section
 
 # Load data and models
-model, scaler, classifier = load()
+model, scaler, classifier_model = load()
 
 st.title("🔍 Real-Time Anomaly Detection")
 placeholder = st.empty()
